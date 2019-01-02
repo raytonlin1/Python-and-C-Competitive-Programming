@@ -1,0 +1,22 @@
+N, M, A, B = map(int, input().split())
+graph = [[] for i in range(N + 1)]
+visited = [False] * (N + 1)
+
+for i in range(M):
+    u, v = map(int, input().split())
+    graph[u].append(v)
+    graph[v].append(u)
+
+def dfs(node):
+    visited[node] = True
+
+    for adj in graph[node]:
+        if not visited[adj]:
+            dfs(adj)
+
+dfs(A)
+
+if visited[B]:
+    print("GO SHAHIR!")
+else:
+    print("NO SHAHIR!")
