@@ -1,0 +1,26 @@
+coins = []
+sumans = int(input())
+numofcoins=int(input())
+for i in range(numofcoins):
+    coins.append(int(input()))
+bestcoins = []
+for i in range(sumans + 1):
+    coinstouse = []
+    lowestcoins = sumans + 1
+    for j in coins:
+        if j <= i:
+            coinstouse.append(j)
+    if len(coinstouse) > 0:
+        for j in coinstouse:
+            if bestcoins[i - j] < lowestcoins and (i==j or bestcoins[i - j]!=0):
+                lowestcoins = bestcoins[i - j] + 1
+        if lowestcoins!=sumans+1:
+            bestcoins.append(lowestcoins)
+        else:
+            bestcoins.append(0)
+    else:
+        bestcoins.append(0)
+if bestcoins[sumans]!=0:
+    print ("Roberta wins in {} strokes.".format(bestcoins[sumans]))
+else:
+    print("Roberta acknowledges defeat.")
