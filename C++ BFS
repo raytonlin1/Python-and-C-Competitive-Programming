@@ -1,0 +1,49 @@
+#include <bits/stdc++.h>
+#include <string>
+#include <math.h>
+#include <stdio.h>
+#include <ctime>
+#include <cmath>
+using namespace std;
+vector<int> roads[2001];
+bool visited[2001];
+
+int main()
+{
+    int N,M,A,B;
+    scanf("%d %d %d %d",&N,&M,&A,&B);
+    for (int i=0;i<M;i++)
+    {
+        int h1,h2;
+        scanf("%d %d",&h1,&h2);
+        roads[h1].push_back(h2);
+        roads[h2].push_back(h1);
+    }
+    visited[A]=true;
+    vector<int> q;
+    q.push_back(A);
+    while (q.size()>0)
+    {
+        auto currentnode=q[0];
+        q.erase(q.begin());
+        for (int i = 0; i < roads[currentnode].size(); i++)
+        {
+            if (visited[roads[currentnode][i]]==false)
+            {
+                visited[roads[currentnode][i]]=true;
+                q.push_back(roads[currentnode][i]);
+            }
+        }
+
+    }
+
+    if (visited[B])
+    {
+        printf("GO SHAHIR!");
+    }
+    else
+    {
+        printf("NO SHAHIR!");
+    }
+    return 0;
+}
