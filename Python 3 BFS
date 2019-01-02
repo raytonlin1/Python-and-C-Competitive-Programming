@@ -1,0 +1,22 @@
+N,M,A,B=map(int,input().split(" "))
+roads=[[] for i in range(N+1)]
+can=False
+visited=[False for i in range(N+1)]
+
+for i in range(M):
+    a,b=map(int,input().split(" "))
+    roads[a].append(b)
+    roads[b].append(a)
+queue = [A]
+visited[A] = True
+while len(queue)!=0:
+    currentnode=queue.pop(0)
+    for neighbour in roads[currentnode]:
+        if (not visited[neighbour]):
+            visited[neighbour] = True
+            queue.append(neighbour)
+
+if visited[B]:
+    print("GO SHAHIR!")
+else:
+    print("NO SHAHIR!")
