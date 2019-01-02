@@ -1,0 +1,46 @@
+import heapq
+
+vertices,edges=map(int,input().split(" "))
+roads=[[] for i in range(vertices+1)]
+adj=[[] for i in range(vertices+1)]
+distances=[10000000 for i in range(vertices+1)]
+
+
+q=[i for i in range(1,vertices)]
+
+for i in range(edges):
+    start,end,weight=map(int,input().split(" "))
+    if end in adj[start]:
+        edgeweight=roads[start][adj[start].index(end)]
+        if weight<edgeweight[1]:
+            roads[start][adj[start].index(end)]=(end,weight)
+            roads[end][adj[end].index(start)]=(start,weight)
+
+            
+        continue
+    roads[start].append((end,weight))
+    roads[end].append((start,weight))
+    adj[start].append(end)
+    adj[end].append(start)
+distances[1]=0
+hq=[(distances[i],i) for i in range(len(distances))]
+heapq.heapify(hq)
+#Djikstra Algorithm
+while len(q)>0:
+    currentnode=heapq.heappop(hq)[1]
+    try:
+        del q[q.index(currentnode)]
+    except:
+        pass
+    for i in range(len(roads[currentnode])):
+        nnode=roads[currentnode][i][0]
+        nweight=roads[currentnode][i][1]
+        if distances[currentnode]+nweight<distances[nnode]:
+            distances[nnode]=distances[currentnode]+nweight
+            heapq.heappush(hq,(distances[nnode],nnode))
+            
+for i in range(1,vertices+1):
+    if distances[i]==10000000:
+        print(-1)
+        continue
+    print(distances[i])
