@@ -1,0 +1,44 @@
+#include <bits/stdc++.h>
+#include <cstring>
+#include <string>
+#include <math.h>
+#include <stdio.h>
+#include <ctime>
+#include <cmath>
+using namespace std;
+vector <int> roads[2001];
+bool visited[2001];
+void DFS(int node)
+{
+    for (int i=0;i<(int)roads[node].size();i++)
+    {
+        if (visited[roads[node][i]]==false)
+        {
+            visited[roads[node][i]]=true;
+            DFS(roads[node][i]);
+        }
+    }
+}
+int main()
+{
+    int N,M,A,B;
+    scanf("%d %d %d %d",&N,&M,&A,&B);
+    for (int i=0;i<M;i++)
+    {
+        int h1,h2;
+        scanf("%d %d",&h1,&h2);
+        roads[h1].push_back(h2);
+        roads[h2].push_back(h1);
+    }
+    visited[A]=true;
+    DFS(A);
+    if (visited[B])
+    {
+        printf("GO SHAHIR!");
+    }
+    else
+    {
+        printf("NO SHAHIR!");
+    }
+    return 0;
+}
