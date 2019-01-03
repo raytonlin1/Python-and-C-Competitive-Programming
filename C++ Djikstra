@@ -1,0 +1,71 @@
+#include <cstdio>
+#include <deque>
+#include <vector>
+using namespace std;
+
+struct edge {
+	int node;
+	int weight;
+};
+vector<struct edge> adjList[1000];
+int dijInfo[1000];
+deque<int> queue;
+int Dijkstra(int N,int source) {
+	int i;
+	for (i = 0; i < N; i++) dijInfo[i] = -1;
+
+	dijInfo[source] = 0;
+	queue.push_back(source);
+
+	int u;
+	int minIndex;
+	int alt;
+	while (queue.size() > 0) {
+		u = queue.back();
+		minIndex = queue.size()-1;
+		for (i = 0; i < (queue.size()-1); i++) {
+			if (dijInfo[queue[i]] < dijInfo[u]) {
+				minIndex = i;
+				u = queue[i];
+			}
+		}
+		queue[minIndex] = queue.back();
+		queue.pop_back();
+
+		for (i = 0; i < adjList[u].size(); i++) {
+			int n[2];
+			n[0] = adjList[u][i].node;
+			n[1] = adjList[u][i].weight;
+
+			if (dijInfo[n[0]] == -1) {
+				dijInfo[n[0]] = dijInfo[u] + n[1];
+				queue.push_back(n[0]);
+			}
+			else {
+				alt = dijInfo[u] + n[1];
+				if (alt < dijInfo[n[0]]) {
+					dijInfo[n[0]] = alt;
+				}
+			}
+		}
+	}
+
+	return 0;
+}
+
+int main() {
+	int i;
+	int N,M;
+	int u,v,w;
+	scanf("%d %d",&N,&M);
+	for (i = 0; i < M; i++) {
+		scanf("%d %d %d",&u,&v,&w);
+		adjList[u-1].push_back({v-1,w});
+		adjList[v-1].push_back({u-1,w});
+	}
+
+	Dijkstra(N,0);
+	for (i = 0; i < N; i++) printf("%d\n",dijInfo[i]);
+
+	return 0;
+}
