@@ -1,0 +1,108 @@
+
+#include <bits/stdc++.h>
+using namespace std;
+char chars[(int)1e6+5];
+int pi[(int)1e6+5];
+void prefix(string s)
+{
+	int slen=s.length();
+	int j=0;
+	for (int k=1;k<slen;k++)
+	{
+		while (j>=0 && chars[j]!=chars[k])
+		{
+			if (j>0)
+			{
+				j=pi[j-1];
+			}
+			else
+			{
+				j=-1;
+			}
+		}
+		j+=1;
+		pi[k]=j;
+		
+	}
+	
+}
+int findfirstindex(string whole, string pfix)
+{
+	int n,m;
+	n=whole.length();
+	m=pfix.length();
+	int j=0;
+	for (int i=0;i<n;i++)
+	{
+		//cout<<i<<" "<<j<<" "<<chars[i]<<" "<<pfix[i]<<"\n";
+		while (j>=0 && chars[i]!=pfix[j])
+		{
+			if (j>0)
+			{
+				j=pi[j-1];
+			}
+			else
+			{
+				j=-1;
+			}
+		}
+		j+=1;
+		if (j==m)
+		{
+			j=pi[m-1];
+			return i-m+1;
+		}
+	}
+	return -1;
+}
+int main() {
+	string large,small;
+	int ans;
+	cin>>large>>small;
+	for (int i=0;i<large.length();i++)
+	{
+		chars[i]=large[i];
+	}
+	prefix(small);
+	ans=findfirstindex(large,small);
+	cout<<ans<<"\n";
+	
+	return 0;
+}
+
+
+
+
+
+
+
+
+
+def prefix(p):
+   m=len(p)
+   pi=[0]*m
+   j=0 
+   for i in range(1,m):
+      while j>=0 and p[j]!=p[i]:
+         if j-1>=0:
+                j=pi[j-1]
+         else:
+                j=-1 
+      j+=1
+      pi[i]=j
+   return pi
+   
+def find_occurrences(S,p):
+   matches = []
+   f=prefix(p)
+   n,m=len(S),len(p)
+   j=0
+   for i in range(n):
+      while j>=0 and t[i]!=p[j]:
+         if j>0: j=f[j-1]
+         else: j=-1
+      j+=1  
+      if j==m:
+         j=f[m-1]
+         matches.append(i-m+1)
+   return matches
